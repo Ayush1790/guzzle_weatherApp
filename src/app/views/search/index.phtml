@@ -1,0 +1,146 @@
+<?php
+$img = '../../../public/images/' . strtolower($data['current']['condition']['text']) . '.gif';
+$img = str_replace(" ", "_", $img);
+?>
+<div class="container-fluid" style="background-image: url(<?php
+ echo $img;?> );  background-repeat:no-repeat; background-size:cover;height:637px; width:100%">
+    <div class="row">
+        <div class="col-2"><a href="?type=current" class='btn btn-info'>Current Weather</a></div>
+        <div class="col"><a href="?type=forecast" class='btn btn-info'>Forecast</a></div>
+        <div class="col"><a href="?type=history" class='btn btn-info'>History</a></div>
+        <div class="col"><a href="?type=timezone" class='btn btn-info'>Time Zone</a></div>
+        <div class="col"><a href="?type=sports" class='btn btn-info'>Sports</a></div>
+        <div class="col"><a href="?type=astronomy" class='btn btn-info'>Astronomy</a></div>
+        <div class="col-2"><a href="?type=alerts" class='btn btn-info'>Weather Alerts</a></div>
+        <div class="col"><a href="?type=airquality" class='btn btn-info'>Air Quality</a></div>
+    </div>
+    <br><br>
+    <div class="row mt-5">
+        <div class="col-3"></div>
+        <div class="col-6 text-center p-2 text-danger">
+            <h1 class="bg-secondary text-white">
+                <?php
+                echo $data['location']['name'] . " , " .
+                    $data['location']['region'] . " (" .
+                    $data['location']['country']  . ")"
+                ?>
+            </h1>
+            <br>
+            <h2>
+                <?php
+                echo $data['location']['localtime'];
+                ?>
+            </h2>
+            <br>
+            <span class='display-4 bg-primary p-2 text-white border border-white'>
+                <?php
+                echo $data['current']['temp_c'];
+                ?>
+                <sup>o</sup>
+            </span>
+            <br><br>
+            <span class='display-3'>
+                <?php
+                echo $data['current']['condition']['text'];
+                ?>
+            </span>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+<?php
+if ($type == 'forecast') {
+    echo "<h1 class='text-center mt-3'>Today's Forecast</h1>";
+    echo "<div class='container-fluid row text-center'>";
+    foreach ($view['forecast']['forecastday'][0]['hour'] as $key => $value) {
+        $img = '../../../public/images/' . strtolower($value['condition']['text']) . '.gif';
+        $img = str_replace(" ", "_", $img);
+        echo "<div class='card col-3 m-5' style='width: 18rem;'>
+    <img class='card-img-top' src=$img alt='Card image cap'>
+    <div class='card-body'>
+      <h5 class='card-title'>" . $value['condition']['text'] . "</h5>
+      <p class='card-text'>" . $value['time'] . "</p>
+      <p class='card-text'>" . $value['temp_c'] . "
+      <sup>o</sup></p>
+    </div>
+  </div>
+  ";
+    }
+    echo "</div>";
+}
+
+if ($type == 'history') {
+    echo "<h1 class='text-center mt-3'>History - </h1>";
+    echo "<div class='container-fluid row text-center'>";
+    foreach ($view['forecast']['forecastday'][0]['hour'] as $key => $value) {
+        $img = '../../../public/images/' . strtolower($value['condition']['text']) . '.gif';
+        $img = str_replace(" ", "_", $img);
+        echo "<div class='card col-3 m-5' style='width: 18rem;'>
+    <img class='card-img-top' src=$img alt='Card image cap'>
+    <div class='card-body'>
+      <h5 class='card-title'>" . $value['condition']['text'] . "</h5>
+      <p class='card-text'>" . $value['time'] . "</p>
+      <p class='card-text'>" . $value['temp_c'] . "
+      <sup>o</sup></p>
+    </div>
+  </div>
+  ";
+    }
+    echo "</div>";
+}
+if ($type == 'timezone') {
+    echo "<table class='table table bordered bg-dark table striped  text-white'>";
+    foreach ($view['location'] as $key => $value) {
+        echo "<tr>
+   <td class='text-center'>$key</td>
+   <td class='text-center'>$value</td>
+   </tr>";
+    }
+    echo "</table>";
+}
+if ($type == 'sports') {
+    echo "<h1 class='text-center'>Sports</h1>";
+    echo "<table class='table table bordered table striped text-white bg-dark'>";
+    foreach ($view as $key => $value) {
+        echo "<tr>
+       <td class='text-center'>$key</td>
+       </tr>";
+    }
+    echo "</table>";
+}
+if ($type == 'astronomy') {
+    echo "<h1 class='text-center'>Astronomy</h1>";
+    echo "<table class='table text-white table bordered table striped bg-dark '>";
+    foreach ($view['astronomy']['astro'] as $key => $value) {
+        echo "<tr>
+       <td class='text-center'>$key</td>
+       <td class='text-center'>$value</td>
+       </tr>";
+    }
+    echo "</table>";
+}
+if ($type == 'alerts') {
+    if (isset($view['alerts']['alert'])) {
+        echo "<table class='table table bordered table striped bg-dark text-white'>";
+        foreach ($view['alerts']['alert'] as $key => $value) {
+            echo "<tr>
+        <td class='text-center'>$key</td>
+        <td class='text-center'>$value</td>
+        </tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "<h3 class='text-center'>No alerts</h3>";
+    }
+}
+if ($type == 'airquality') {
+    echo "<table class='table table bordered table striped bg-dark text-white'>";
+    foreach ($view['current']['air_quality'] as $key => $value) {
+        echo "<tr>
+        <td class='text-center'>$key</td>
+        <td class='text-center'>$value</td>
+        </tr>";
+    }
+    echo "</table>";
+}
+?>

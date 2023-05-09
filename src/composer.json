@@ -1,0 +1,17 @@
+{
+    "name": "cedcoss/guzzle_weather_api",
+    "autoload": {
+        "psr-4": {
+            "Cedcoss\\GuzzleWeatherApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ayush1790",
+            "email": "ayushgupta@cedcoss.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}
